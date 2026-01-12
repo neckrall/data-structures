@@ -13,8 +13,8 @@ public abstract class LinkedListBase<TItem, TValue> where TItem : LinkedListItem
     public abstract TItem AddAfter(TItem targetItem, TValue value);
     public abstract TItem AddBefore(TItem targetItem, TValue value);
     public abstract TItem? Find(TValue value);
-    public abstract void RemoveFirst();
-    public abstract void RemoveLast();
+    public abstract bool RemoveFirst();
+    public abstract bool RemoveLast();
     public abstract bool Remove(TValue value);
     public abstract bool Remove(TItem item);
 }
