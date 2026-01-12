@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="DataStructures.Models/DataStructures.Models.csproj" />
+  <Project Path="DataStructures.Tests/DataStructures.Tests.csproj" Id="684490f5-c9d3-4c63-b218-03ea66a8da0d" />
 </Solution>
