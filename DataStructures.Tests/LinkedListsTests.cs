@@ -52,4 +52,51 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
         Assert.Equal(count, list.Count);
     }
     #endregion
+
+    #region AddToBegin
+    [Fact]
+    public void AddToBegin_WhenListIsEmpty_ShouldSetFirstAndLastToSameItem() 
+    {
+        // Arrange
+        var list = CreateList();
+        var value = 8;
+        var count = 1;
+
+        // Act
+        list.AddToBegin(value);
+
+        // Assert
+        Assert.NotNull(list.First);
+        Assert.NotNull(list.Last);
+
+        Assert.Equal(value, list.First.Value);
+        Assert.Equal(value, list.Last.Value);
+        Assert.Equal(count, list.Count);
+
+        Assert.Same(list.First, list.Last);
+    }
+
+    [Fact]
+    public void AddToBegin_WhenListIsNotEmpty_ShouldPrependItem() 
+    {
+        // Arrange
+        var list = CreateList();
+        var firstValue = 1;
+        var lastValue = 2;
+        var count = 2;
+
+        list.Add(firstValue);
+
+        // Act
+        list.AddToBegin(lastValue);
+
+        // Assert
+        Assert.NotNull(list.First);
+        Assert.NotNull(list.Last);
+
+        Assert.Equal(lastValue, list.First.Value);
+        Assert.Equal(firstValue, list.Last.Value);
+        Assert.Equal(count, list.Count);
+    }
+    #endregion
 }
