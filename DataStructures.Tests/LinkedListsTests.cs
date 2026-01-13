@@ -168,6 +168,44 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
     }
     #endregion
 
+    #region Find
+    [Fact]
+    public void Find_WhenValueIsNotPresent_ShouldReturnNull() 
+    {
+        // Arrange
+        var emptyList = CreateList();
+        var list = CreateList();
+        var valueToAdd = 1;
+        var valueToFind = 2;
+
+        list.Add(valueToAdd);
+
+        // Act
+        var emptyListResult = emptyList.Find(valueToFind);
+        var listResult = list.Find(valueToFind);
+
+        // Assert
+        Assert.Null(emptyListResult);
+        Assert.Null(listResult);
+    }
+    [Fact]
+    public void Find_WhenValueIsPresent_ShouldReturnMatchingItem() 
+    {
+        // Arrange
+        var list = CreateList();
+        var value = 8;
+
+        list.Add(value);
+
+        // Act
+        var result = list.Find(value);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(result, list.First);
+    }
+    #endregion
+
     #region RemoveFirst
     [Fact]
     public void RemoveFirst_WhenListIsEmpty_ShouldReturnFalse() 
