@@ -121,7 +121,7 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
     }
 
     [Fact]
-    public void RemoveFirst_WhenListHasOneItem_ShouldRemoveFirstItemAndReturnTrue() 
+    public void RemoveFirst_WhenListHasOneItem_ShouldRemoveItemAndReturnTrue() 
     {
         // Arrange
         var list = CreateList();
@@ -166,6 +166,77 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
 
         Assert.Equal(lastValue, list.First.Value);
         Assert.Equal(lastValue, list.Last.Value);
+        Assert.Equal(expectedResult, result);
+        Assert.Equal(expectedCount, list.Count);
+    }
+    #endregion
+
+    #region RemoveLast
+    [Fact]
+    public void RemoveLast_WhenListIsEmpty_ShouldReturnFalse() 
+    {
+        // Arrange
+        var list = CreateList();
+        var expectedResult = false;
+        var count = 0;
+
+        // Act
+        var result = list.RemoveLast();
+
+        // Assert
+        Assert.Null(list.First);
+        Assert.Null(list.Last);
+
+        Assert.Equal(expectedResult, result);
+        Assert.Equal(count, list.Count);
+    }
+
+    [Fact]
+    public void RemoveLast_WhenListHasOneItem_ShouldRemoveItemAndReturnTrue() 
+    {
+        // Arrange
+        var list = CreateList();
+        var value = 8;
+        var expectedResult = true;
+        var expectedCount = 0;
+
+        list.Add(value);
+
+        // Act
+        var result = list.RemoveLast();
+
+        // Assert
+        Assert.Null(list.First);
+        Assert.Null(list.Last);
+
+        Assert.Equal(expectedResult, result);
+        Assert.Equal(expectedCount, list.Count);
+    }
+
+    [Fact]
+    public void RemoveLast_WhenListHasTwoItems_ShouldRemoveLastItemAndReturnTrue()
+    {
+        // Arrange
+        var list = CreateList();
+        var firstValue = 1;
+        var lastValue = 2;
+        var expectedResult = true;
+        var expectedCount = 1;
+
+        list.Add(firstValue);
+        list.Add(lastValue);
+
+        // Act
+        var result = list.RemoveLast();
+
+        // Assert
+        Assert.NotNull(list.First);
+        Assert.NotNull(list.Last);
+
+        Assert.Same(list.First, list.Last);
+
+        Assert.Equal(firstValue, list.First.Value);
+        Assert.Equal(firstValue, list.Last.Value);
         Assert.Equal(expectedResult, result);
         Assert.Equal(expectedCount, list.Count);
     }
