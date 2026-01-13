@@ -134,6 +134,40 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
     }
     #endregion
 
+    #region AddBefore
+    /*
+    For simplicity, item ownership is not tracked.
+    As a result, passing an item that does not belong to the list leads to undefined behavior.
+    Tracking item ownership would allow O(1) validation but would introduce additional complexity and invariants.
+     */
+    [Fact]
+    public void AddBefore_WhenTargetItemIsValid_ShouldIncreaseCountAndPreserveBoundaries() 
+    {
+        // Arrange
+        var list = CreateList();
+        var firstValue = 1;
+        var middleValue = 2;
+        var lastValue = 3;
+        var count = 3;
+
+        list.Add(firstValue);
+        list.Add(lastValue);
+
+        // Act
+        var middle = list.AddBefore(list.Last!, middleValue);
+
+        // Assert
+        // The exact positioning of the inserted item is validated in implementation-specific tests.
+        Assert.NotNull(list.First);
+        Assert.NotNull(middle);
+        Assert.NotNull(list.Last);
+
+        Assert.Equal(firstValue, list.First.Value);
+        Assert.Equal(lastValue, list.Last.Value);
+        Assert.Equal(count, list.Count);
+    }
+    #endregion
+
     #region RemoveFirst
     [Fact]
     public void RemoveFirst_WhenListIsEmpty_ShouldReturnFalse() 
