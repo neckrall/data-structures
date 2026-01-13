@@ -8,7 +8,7 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
 
     #region Add
     [Fact]
-    public void Add_WhenListIsEmpty_ShouldSetFirstAndLastToSameItem() 
+    public void Add_WhenListIsEmpty_ShouldSetFirstAndLastToSameItem()
     {
         // Arrange
         var list = CreateList();
@@ -30,7 +30,7 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
     }
 
     [Fact]
-    public void Add_WhenListIsNotEmpty_ShouldAppendItemToEnd() 
+    public void Add_WhenListIsNotEmpty_ShouldAppendItemToEnd()
     {
         // Arrange
         var list = CreateList();
@@ -55,7 +55,7 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
 
     #region AddToBegin
     [Fact]
-    public void AddToBegin_WhenListIsEmpty_ShouldSetFirstAndLastToSameItem() 
+    public void AddToBegin_WhenListIsEmpty_ShouldSetFirstAndLastToSameItem()
     {
         // Arrange
         var list = CreateList();
@@ -77,7 +77,7 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
     }
 
     [Fact]
-    public void AddToBegin_WhenListIsNotEmpty_ShouldPrependItem() 
+    public void AddToBegin_WhenListIsNotEmpty_ShouldPrependItem()
     {
         // Arrange
         var list = CreateList();
@@ -141,7 +141,7 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
     Tracking item ownership would allow O(1) validation but would introduce additional complexity and invariants.
      */
     [Fact]
-    public void AddBefore_WhenTargetItemIsValid_ShouldIncreaseCountAndPreserveBoundaries() 
+    public void AddBefore_WhenTargetItemIsValid_ShouldIncreaseCountAndPreserveBoundaries()
     {
         // Arrange
         var list = CreateList();
@@ -170,7 +170,7 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
 
     #region Find
     [Fact]
-    public void Find_WhenValueIsNotPresent_ShouldReturnNull() 
+    public void Find_WhenValueIsNotPresent_ShouldReturnNull()
     {
         // Arrange
         var emptyList = CreateList();
@@ -189,7 +189,7 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
         Assert.Null(listResult);
     }
     [Fact]
-    public void Find_WhenValueIsPresent_ShouldReturnMatchingItem() 
+    public void Find_WhenValueIsPresent_ShouldReturnMatchingItem()
     {
         // Arrange
         var list = CreateList();
@@ -208,7 +208,7 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
 
     #region RemoveFirst
     [Fact]
-    public void RemoveFirst_WhenListIsEmpty_ShouldReturnFalse() 
+    public void RemoveFirst_WhenListIsEmpty_ShouldReturnFalse()
     {
         // Arrange
         var list = CreateList();
@@ -227,7 +227,7 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
     }
 
     [Fact]
-    public void RemoveFirst_WhenListHasOneItem_ShouldRemoveItemAndReturnTrue() 
+    public void RemoveFirst_WhenListHasOneItem_ShouldRemoveItemAndReturnTrue()
     {
         // Arrange
         var list = CreateList();
@@ -279,7 +279,7 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
 
     #region RemoveLast
     [Fact]
-    public void RemoveLast_WhenListIsEmpty_ShouldReturnFalse() 
+    public void RemoveLast_WhenListIsEmpty_ShouldReturnFalse()
     {
         // Arrange
         var list = CreateList();
@@ -298,7 +298,7 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
     }
 
     [Fact]
-    public void RemoveLast_WhenListHasOneItem_ShouldRemoveItemAndReturnTrue() 
+    public void RemoveLast_WhenListHasOneItem_ShouldRemoveItemAndReturnTrue()
     {
         // Arrange
         var list = CreateList();
@@ -345,6 +345,297 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
         Assert.Equal(firstValue, list.Last.Value);
         Assert.Equal(expectedResult, result);
         Assert.Equal(expectedCount, list.Count);
+    }
+    #endregion
+
+    #region Remove(TItem item)
+    /*
+     Remove(TItem item) assumes that the provided item belongs to the list.
+     Passing an item from another list results in undefined behavior.
+     */
+    [Fact]
+    public void Remove_WhenListHasOneItem_ShouldClearListAndReturnTrue()
+    {
+        // Arrange
+        var list = CreateList();
+        var value = 8;
+        var expectedResult = true;
+        var expectedCount = 0;
+
+        list.Add(value);
+
+        // Act
+        var item = list.Find(value);
+        var result = list.Remove(item!);
+
+        // Assert
+        Assert.Null(list.First);
+        Assert.Null(list.Last);
+
+        Assert.Equal(expectedResult, result);
+        Assert.Equal(expectedCount, list.Count);
+    }
+
+    [Fact]
+    public void Remove_WhenRemovingFirstItem_ShouldUpdateFirst()
+    {
+        // Arrange
+        var list = CreateList();
+        var firstValue = 1;
+        var middleValue = 2;
+        var lastValue = 3;
+        var expectedResult = true;
+        var expectedCount = 2;
+
+        list.Add(firstValue);
+        list.Add(middleValue);
+        list.Add(lastValue);
+
+        // Act
+        var item = list.Find(firstValue);
+        var result = list.Remove(item!);
+
+        // Assert
+        Assert.NotNull(list.First);
+        Assert.NotNull(list.Last);
+
+        Assert.Equal(expectedResult, result);
+        Assert.Equal(expectedCount, list.Count);
+        Assert.Equal(middleValue, list.First.Value);
+        Assert.Equal(lastValue, list.Last.Value);
+
+        Assert.Same(list.Find(middleValue), list.First);
+        Assert.Same(list.Find(lastValue), list.Last);
+    }
+
+    [Fact]
+    public void Remove_WhenRemovingLastItem_ShouldUpdateLast()
+    {
+        // Arrange
+        var list = CreateList();
+        var firstValue = 1;
+        var middleValue = 2;
+        var lastValue = 3;
+        var expectedResult = true;
+        var expectedCount = 2;
+
+        list.Add(firstValue);
+        list.Add(middleValue);
+        list.Add(lastValue);
+
+        // Act
+        var item = list.Find(lastValue);
+        var result = list.Remove(item!);
+
+        // Assert
+        Assert.NotNull(list.First);
+        Assert.NotNull(list.Last);
+
+        Assert.Equal(expectedResult, result);
+        Assert.Equal(expectedCount, list.Count);
+        Assert.Equal(firstValue, list.First.Value);
+        Assert.Equal(middleValue, list.Last.Value);
+
+        Assert.Same(list.Find(firstValue), list.First);
+        Assert.Same(list.Find(middleValue), list.Last);
+    }
+
+    [Fact]
+    public void Remove_WhenRemovingMiddleItem_ShouldKeepBoundaries()
+    {
+        // Arrange
+        var list = CreateList();
+        var firstValue = 1;
+        var middleValue = 2;
+        var lastValue = 3;
+        var expectedResult = true;
+        var expectedCount = 2;
+
+        list.Add(firstValue);
+        list.Add(middleValue);
+        list.Add(lastValue);
+
+        // Act
+        var item = list.Find(middleValue);
+        var result = list.Remove(item!);
+
+        // Assert
+        Assert.NotNull(list.First);
+        Assert.NotNull(list.Last);
+
+        Assert.Null(list.Find(middleValue));
+
+        Assert.Equal(expectedResult, result);
+        Assert.Equal(expectedCount, list.Count);
+        Assert.Equal(firstValue, list.First.Value);
+        Assert.Equal(lastValue, list.Last.Value);
+
+        Assert.Same(list.Find(firstValue), list.First);
+        Assert.Same(list.Find(lastValue), list.Last);
+    }
+    #endregion
+
+    #region Remove(TValue value)
+    [Fact]
+    public void RemoveByValue_WhenListIsEmpty_ShouldReturnFalse()
+    {
+        // Arrange
+        var list = CreateList();
+        var expectedResult = false;
+        var expectedCount = 0;
+        var value = 8;
+
+        // Act
+        var result = list.Remove(value);
+
+        // Assert
+        Assert.Null(list.First);
+        Assert.Null(list.Last);
+
+        Assert.Equal(expectedResult, result);
+        Assert.Equal(expectedCount, list.Count);
+    }
+
+    [Fact]
+    public void RemoveByValue_WhenValueIsNotFound_ShouldReturnFalse()
+    {
+        // Arrange
+        var list = CreateList();
+        var expectedResult = false;
+        var expectedCount = 2;
+        var firstValue = 1;
+        var lastValue = 2;
+        var valueToRemove = 3;
+
+        list.Add(firstValue);
+        list.Add(lastValue);
+
+        // Act
+        var result = list.Remove(valueToRemove);
+
+        // Assert
+        Assert.NotNull(list.First);
+        Assert.NotNull(list.Last);
+
+        Assert.Equal(expectedResult, result);
+        Assert.Equal(expectedCount, list.Count);
+    }
+
+    [Fact]
+    public void RemoveByValue_WhenListHasOneItem_ShouldClearListAndReturnTrue()
+    {
+        // Arrange
+        var list = CreateList();
+        var expectedResult = true;
+        var expectedCount = 0;
+        var value = 8;
+
+        list.Add(value);
+
+        // Act
+        var result = list.Remove(value);
+
+        // Assert
+        Assert.Null(list.First);
+        Assert.Null(list.Last);
+
+        Assert.Equal(expectedResult, result);
+        Assert.Equal(expectedCount, list.Count);
+    }
+
+    [Fact]
+    public void RemoveByValue_WhenRemovingFirstItem_ShouldUpdateFirst()
+    {
+        // Arrange
+        var list = CreateList();
+        var expectedResult = true;
+        var expectedCount = 2;
+        var firstValue = 1;
+        var middleValue = 2;
+        var lastValue = 3;
+
+        list.Add(firstValue);
+        list.Add(middleValue);
+        list.Add(lastValue);
+
+        // Act
+        var result = list.Remove(1);
+
+        // Assert
+        Assert.NotNull(list.First);
+        Assert.NotNull(list.Last);
+
+        Assert.Same(list.Find(middleValue), list.First);
+        Assert.Same(list.Find(lastValue), list.Last);
+
+        Assert.Equal(middleValue, list.First.Value);
+        Assert.Equal(lastValue, list.Last.Value);
+        Assert.Equal(expectedResult, result);
+        Assert.Equal(expectedCount, list.Count);
+    }
+
+    [Fact]
+    public void RemoveByValue_WhenRemovingLastItem_ShouldUpdateLast()
+    {
+        // Arrange
+        var list = CreateList();
+        var expectedResult = true;
+        var expectedCount = 2;
+        var firstValue = 1;
+        var middleValue = 2;
+        var lastValue = 3;
+
+        list.Add(firstValue);
+        list.Add(middleValue);
+        list.Add(lastValue);
+
+        // Act
+        var result = list.Remove(lastValue);
+
+        // Assert
+        Assert.NotNull(list.First);
+        Assert.NotNull(list.Last);
+
+        Assert.Same(list.Find(firstValue), list.First);
+        Assert.Same(list.Find(middleValue), list.Last);
+
+        Assert.Equal(firstValue, list.First.Value);
+        Assert.Equal(middleValue, list.Last.Value);
+        Assert.Equal(expectedResult, result);
+        Assert.Equal(expectedCount, list.Count);
+    }
+
+    [Fact]
+    public void RemoveByValue_WhenRemovingMiddleItem_ShouldKeepBoundaries()
+    {
+        // Arrange
+        var list = CreateList();
+        var expectedResult = true;
+        var expectedCount = 2;
+        var firstValue = 1;
+        var middleValue = 2;
+        var lastValue = 3;
+
+        list.Add(firstValue);
+        list.Add(middleValue);
+        list.Add(lastValue);
+
+        // Act
+        var result = list.Remove(middleValue);
+
+        // Assert
+        Assert.NotNull(list.First);
+        Assert.NotNull(list.Last);
+
+        Assert.Null(list.Find(middleValue));
+
+        Assert.Equal(expectedResult, result);
+        Assert.Equal(expectedCount, list.Count);
+        Assert.Equal(firstValue, list.First.Value);
+        Assert.Equal(lastValue, list.Last.Value);
+
+        Assert.Same(list.Find(firstValue), list.First);
+        Assert.Same(list.Find(lastValue), list.Last);
     }
     #endregion
 }
