@@ -6,6 +6,7 @@ public abstract class LinkedListBase<TItem, TValue> where TItem : LinkedListItem
     public TItem? First { get; protected set; }
     public TItem? Last { get; protected set; }
     public int Count { get; protected set; }
+    public bool IsEmpty => Count == 0;
 
     // Contracts
     public abstract void Add(TValue value);

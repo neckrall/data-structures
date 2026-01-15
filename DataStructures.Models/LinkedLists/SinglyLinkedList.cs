@@ -4,7 +4,10 @@ public sealed class SinglyLinkedList<T> : LinkedListBase<SinglyLinkedListItem<T>
 {
     public override void Add(T value)
     {
-        throw new NotImplementedException();
+        if (IsEmpty)
+            SetFirstAndLast(new SinglyLinkedListItem<T>(value));
+        else
+            AddToLast(new SinglyLinkedListItem<T>(value));
     }
 
     public override SinglyLinkedListItem<T> AddAfter(SinglyLinkedListItem<T> targetItem, T value)
@@ -45,6 +48,20 @@ public sealed class SinglyLinkedList<T> : LinkedListBase<SinglyLinkedListItem<T>
     public override bool RemoveLast()
     {
         throw new NotImplementedException();
+    }
+
+    private void SetFirstAndLast(SinglyLinkedListItem<T> item) 
+    { 
+        First = item;
+        Last = item;
+        Count = 1;
+    }
+
+    private void AddToLast(SinglyLinkedListItem<T> item) 
+    { 
+        Last!.Next = item;
+        Last = item;
+        Count++;
     }
 }
 
