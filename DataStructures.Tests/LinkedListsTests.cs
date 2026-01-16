@@ -126,27 +126,30 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
     }
 
     [Fact]
-    public void AddAfter_WhenTargetIsLast_ShouldAddToLast() 
+    public void AddAfter_WhenTargetItemIsValid_ShouldIncreaseCountAndKeepBoundaries()
     {
         // Arrange
         var list = CreateList();
         var firstValue = 1;
-        var lastValue = 2;
-        var newValue = 3;
+        var middleValue = 2;
+        var lastValue = 3;
         var count = 3;
 
         list.Add(firstValue);
         list.Add(lastValue);
 
-        var target = list.Last;
+        var target = list.First!;
 
         // Act
-        var newItem = list.AddAfter(target!, newValue);
+        var middleItem = list.AddAfter(target, middleValue);
 
         // Assert
-        Assert.Same(target, list.First);
-        Assert.Same(newItem, list.Last);
+        Assert.NotNull(list.First);
+        Assert.NotNull(middleItem);
+        Assert.NotNull(list.Last);
 
+        Assert.Equal(firstValue, list.First.Value);
+        Assert.Equal(lastValue, list.Last.Value);
         Assert.Equal(count, list.Count);
     }
 

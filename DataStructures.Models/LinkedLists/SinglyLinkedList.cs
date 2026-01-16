@@ -15,7 +15,16 @@ public sealed class SinglyLinkedList<T> : LinkedListBase<SinglyLinkedListItem<T>
 
     public override SinglyLinkedListItem<T> AddAfter(SinglyLinkedListItem<T> targetItem, T value)
     {
-        throw new NotImplementedException();
+        var item = new SinglyLinkedListItem<T>(value);
+
+        item.Next = targetItem.Next;
+        targetItem.Next = item;
+
+        if (ReferenceEquals(targetItem, Last))
+            Last = item;
+
+        Count++;
+        return item;
     }
 
     public override SinglyLinkedListItem<T> AddBefore(SinglyLinkedListItem<T> targetItem, T value)
