@@ -260,4 +260,75 @@ public sealed class SinglyLinkedListTests : LinkedListsTests<SinglyLinkedListIte
         Assert.Null(insertedItem.Next);
     }
     #endregion
+
+    #region AddBefore
+    [Fact]
+    public void AddBefore_WhenTargetIsInMiddle_ShouldRelinkNextCorrectly()
+    {
+        // Arrange
+        var list = CreateList();
+        var firstValue = 1;
+        var middleValue = 2;
+        var lastValue = 3;
+        var newValue = 8;
+
+        list.Add(firstValue);
+        list.Add(middleValue);
+        list.Add(lastValue);
+
+        var target = list.Find(middleValue);
+        var previous = list.Find(firstValue);
+
+        // Act
+        var insertedItem = list.AddBefore(target!, newValue);
+
+        // Assert
+        Assert.Same(insertedItem, previous!.Next);
+        Assert.Same(target, insertedItem.Next);
+    }
+
+    [Fact]
+    public void AddBefore_WhenTargetIsFirst_ShouldUpdateFirstAndLinkCorrectly()
+    {
+        // Arrange
+        var list = CreateList();
+        var firstValue = 1;
+        var newValue = 2;
+
+        list.Add(firstValue);
+
+        var target = list.First;
+
+        // Act
+        var insertedItem = list.AddBefore(target!, newValue);
+
+        // Assert
+        Assert.Same(insertedItem, list.First);
+        Assert.Same(target, insertedItem.Next);
+    }
+
+    [Fact]
+    public void AddBefore_WhenTargetIsLast_ShouldLinkPreviousToNewItem()
+    {
+        // Arrange
+        var list = CreateList();
+        var firstValue = 1;
+        var lastValue = 2;
+        var newValue = 3;
+
+        list.Add(firstValue);
+        list.Add(lastValue);
+
+        var target = list.Last;
+        var previous = list.First;
+
+        // Act
+        var insertedItem = list.AddBefore(target!, newValue);
+
+        // Assert
+        Assert.Same(insertedItem, previous!.Next);
+        Assert.Same(target, insertedItem.Next);
+        Assert.Same(target, list.Last);
+    }
+    #endregion
 }
