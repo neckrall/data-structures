@@ -29,7 +29,14 @@ public sealed class SinglyLinkedList<T> : LinkedListBase<SinglyLinkedListItem<T>
 
     public override SinglyLinkedListItem<T> AddBefore(SinglyLinkedListItem<T> targetItem, T value)
     {
-        throw new NotImplementedException();
+        var item = new SinglyLinkedListItem<T>(value);
+
+        if (ReferenceEquals(targetItem, First))
+            AddToBeginInternal(item);
+        else
+            AddBeforeInternal(targetItem, item);
+
+        return item;
     }
 
     public override void AddToBegin(T value)
@@ -158,6 +165,15 @@ public sealed class SinglyLinkedList<T> : LinkedListBase<SinglyLinkedListItem<T>
 
         previous.Next = item.Next;
         Count--;
+    }
+
+    private void AddBeforeInternal(SinglyLinkedListItem<T> targetItem, SinglyLinkedListItem<T> item) 
+    {
+        var previous = FindPrevious(targetItem);
+
+        item.Next = targetItem;
+        previous!.Next = item;
+        Count++;
     }
 
     private SinglyLinkedListItem<T> FindPrevious(SinglyLinkedListItem<T> item) 
