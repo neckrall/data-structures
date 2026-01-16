@@ -72,7 +72,15 @@ public sealed class SinglyLinkedList<T> : LinkedListBase<SinglyLinkedListItem<T>
 
     public override bool RemoveLast()
     {
-        throw new NotImplementedException();
+        if (IsEmpty)
+            return false;
+
+        if (Count == 1)
+            Reset();
+        else
+            RemoveLastInternal();
+
+        return true;
     }
 
     private void SetFirstAndLast(SinglyLinkedListItem<T> item) 
@@ -105,6 +113,28 @@ public sealed class SinglyLinkedList<T> : LinkedListBase<SinglyLinkedListItem<T>
     {
         First = First!.Next;
         Count--;
+    }
+
+    private void RemoveLastInternal() 
+    {
+        Last = FindPrevious(Last!);
+        Last.Next = null;
+        Count--;
+    }
+
+    private SinglyLinkedListItem<T> FindPrevious(SinglyLinkedListItem<T> item) 
+    {
+        var current = First;
+
+        while (current!.Next is not null) 
+        {
+            if (ReferenceEquals(current.Next, item))
+                return current;
+
+            current = current.Next;
+        }
+
+        throw new InvalidOperationException("The specified item is not in the list.");
     }
 }
 
