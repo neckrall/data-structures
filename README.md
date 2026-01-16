@@ -43,6 +43,24 @@ purpose is to:
 The tests are not intended for performance benchmarking and do not
 represent production-scale usage scenarios.
 
+## Time and Space Complexity
+
+The table below summarizes the asymptotic complexity of core operations.
+
+| Data structure     | Access | Search | Insert                               | Remove                               | Space     |
+| ------------------ | ------ | ------ | ------------------------------------ | ------------------------------------ | --------- |
+| Singly Linked List | O(n)   | O(n)   | Known node - O(1)<br>By value - O(n) | Known node - O(1)<br>By value - O(n) | T + 1 ref |
+
+### Notes
+
+| Data structure     | Note                                                                                                                                                                                   |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Singly Linked List | Insertion and removal are constant-time operations only when the target<br>position is already known. When a previous node must be located, the<br>complexity degrades to linear time. |
+
+### Big O Reference (Fast → Slow)
+O(1) < O(log n) < O(n) < O(n log n) < O(n²) < O(2ⁿ)
+_(This reference is provided for orientation when comparing operation costs.)_
+
 ## Repository Purpose
 
 This repository serves as:
