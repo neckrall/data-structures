@@ -4,10 +4,12 @@ public sealed class SinglyLinkedList<T> : LinkedListBase<SinglyLinkedListItem<T>
 {
     public override void Add(T value)
     {
+        var item = new SinglyLinkedListItem<T>(value);
+
         if (IsEmpty)
-            SetFirstAndLast(new SinglyLinkedListItem<T>(value));
+            SetFirstAndLast(item);
         else
-            AddToLast(new SinglyLinkedListItem<T>(value));
+            AddToLast(item);
     }
 
     public override SinglyLinkedListItem<T> AddAfter(SinglyLinkedListItem<T> targetItem, T value)
@@ -22,15 +24,27 @@ public sealed class SinglyLinkedList<T> : LinkedListBase<SinglyLinkedListItem<T>
 
     public override void AddToBegin(T value)
     {
+        var item = new SinglyLinkedListItem<T>(value);
+
         if (IsEmpty)
-            SetFirstAndLast(new SinglyLinkedListItem<T>(value));
+            SetFirstAndLast(item);
         else
-            AddToBeginInternal(new SinglyLinkedListItem<T>(value));
+            AddToBeginInternal(item);
     }
 
     public override SinglyLinkedListItem<T>? Find(T value)
     {
-        throw new NotImplementedException();
+        var current = First;
+
+        while (current is not null)
+        {
+            if (EqualityComparer<T>.Default.Equals(current.Value, value))
+                return current;
+
+            current = current.Next;
+        }
+
+        return null;
     }
 
     public override bool Remove(T value)
