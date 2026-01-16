@@ -77,8 +77,7 @@ public sealed class SinglyLinkedList<T> : LinkedListBase<SinglyLinkedListItem<T>
 
     private void SetFirstAndLast(SinglyLinkedListItem<T> item) 
     { 
-        First = item;
-        Last = item;
+        First = Last = item;
         Count = 1;
     }
 

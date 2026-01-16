@@ -77,4 +77,47 @@ public sealed class SinglyLinkedListTests : LinkedListsTests<SinglyLinkedListIte
         Assert.Null(list.Last!.Next);
     }
     #endregion
+
+    #region RemoveLast
+    [Fact]
+    public void RemoveLast_WhenListHasTwoItems_ShouldSetLastNextToNull() 
+    {
+        // Arrange
+        var list = CreateList();
+        var firstValue = 1;
+        var lastValue = 2;
+
+        list.Add(firstValue);
+        list.Add(lastValue);
+
+        // Act
+        list.RemoveLast();
+
+        // Assert
+        Assert.Null(list.Last!.Next);
+    }
+
+    [Fact]
+    public void RemoveLast_WhenListHasMultipleItems_ShouldRelinkLastCorrectly() 
+    {
+        // Arrange
+        var list = CreateList();
+        var firstValue = 1;
+        var middleValue = 2;
+        var lastValue = 3;
+
+        list.Add(firstValue);
+        list.Add(middleValue);
+        list.Add(lastValue);
+
+        var expectedLast = list.Find(middleValue);
+
+        // Act
+        list.RemoveLast();
+
+        // Assert
+        Assert.Same(expectedLast, list.Last);
+        Assert.Null(list.Last!.Next);
+    }
+    #endregion
 }
