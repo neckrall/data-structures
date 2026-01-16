@@ -22,7 +22,10 @@ public sealed class SinglyLinkedList<T> : LinkedListBase<SinglyLinkedListItem<T>
 
     public override void AddToBegin(T value)
     {
-        throw new NotImplementedException();
+        if (IsEmpty)
+            SetFirstAndLast(new SinglyLinkedListItem<T>(value));
+        else
+            AddToBeginInternal(new SinglyLinkedListItem<T>(value));
     }
 
     public override SinglyLinkedListItem<T>? Find(T value)
@@ -61,6 +64,13 @@ public sealed class SinglyLinkedList<T> : LinkedListBase<SinglyLinkedListItem<T>
     { 
         Last!.Next = item;
         Last = item;
+        Count++;
+    }
+
+    private void AddToBeginInternal(SinglyLinkedListItem<T> item)
+    {
+        item.Next = First;
+        First = item;
         Count++;
     }
 }
