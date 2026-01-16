@@ -49,7 +49,13 @@ public sealed class SinglyLinkedList<T> : LinkedListBase<SinglyLinkedListItem<T>
 
     public override bool Remove(T value)
     {
-        throw new NotImplementedException();
+        var item = Find(value);
+
+        if (item is null)
+            return false;
+
+        Remove(item);
+        return true;
     }
 
     public override bool Remove(SinglyLinkedListItem<T> item)
