@@ -59,7 +59,15 @@ public sealed class SinglyLinkedList<T> : LinkedListBase<SinglyLinkedListItem<T>
 
     public override bool RemoveFirst()
     {
-        throw new NotImplementedException();
+        if (IsEmpty)
+            return false;
+
+        if (Count == 1)
+            Reset();
+        else
+            RemoveFirstInternal();
+
+        return true;
     }
 
     public override bool RemoveLast()
@@ -86,6 +94,18 @@ public sealed class SinglyLinkedList<T> : LinkedListBase<SinglyLinkedListItem<T>
         item.Next = First;
         First = item;
         Count++;
+    }
+
+    private void Reset() 
+    {
+        First = Last = null;
+        Count = 0;
+    }
+
+    private void RemoveFirstInternal() 
+    {
+        First = First!.Next;
+        Count--;
     }
 }
 
