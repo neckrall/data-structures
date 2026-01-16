@@ -101,13 +101,57 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
     #endregion
 
     #region AddAfter
-    /*
-    For simplicity, item ownership is not tracked.
-    As a result, passing an item that does not belong to the list leads to undefined behavior.
-    Tracking item ownership would allow O(1) validation but would introduce additional complexity and invariants.
-     */
+    // For the purposes of this project, tests assume that a valid list item is passed as a parameter.
     [Fact]
-    public void AddAfter_WhenTargetItemIsValid_ShouldIncreaseCountAndKeepBoundaries()
+    public void AddAfter_WhenListHasOneItem_ShouldKeepFirstAndUpdateLast() 
+    {
+        // Arrange
+        var list = CreateList();
+        var value = 1;
+        var newValue = 2;
+        var count = 2;
+
+        list.Add(value);
+
+        var target = list.First;
+
+        // Act
+        var newItem = list.AddAfter(target!, newValue);
+
+        // Assert
+        Assert.Same(target, list.First);
+        Assert.Same(newItem, list.Last);
+
+        Assert.Equal(count, list.Count);
+    }
+
+    [Fact]
+    public void AddAfter_WhenTargetIsLast_ShouldAddToLast() 
+    {
+        // Arrange
+        var list = CreateList();
+        var firstValue = 1;
+        var lastValue = 2;
+        var newValue = 3;
+        var count = 3;
+
+        list.Add(firstValue);
+        list.Add(lastValue);
+
+        var target = list.Last;
+
+        // Act
+        var newItem = list.AddAfter(target!, newValue);
+
+        // Assert
+        Assert.Same(target, list.First);
+        Assert.Same(newItem, list.Last);
+
+        Assert.Equal(count, list.Count);
+    }
+
+    [Fact]
+    public void AddAfter_WhenTargetIsInMiddle_ShouldIncreaseCountAndKeepBoundaries() 
     {
         // Arrange
         var list = CreateList();
@@ -119,17 +163,15 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
         list.Add(firstValue);
         list.Add(lastValue);
 
+        var target = list.First;
+
         // Act
-        var middle = list.AddAfter(list.First!, middleValue);
+        var middle = list.AddAfter(target!, middleValue);
 
         // Assert
-        // The exact positioning of the inserted item is validated in implementation-specific tests.
-        Assert.NotNull(list.First);
-        Assert.NotNull(middle);
-        Assert.NotNull(list.Last);
+        Assert.Same(list.Find(firstValue), list.First);
+        Assert.Same(list.Find(lastValue), list.Last);
 
-        Assert.Equal(firstValue, list.First.Value);
-        Assert.Equal(lastValue, list.Last.Value);
         Assert.Equal(count, list.Count);
     }
     #endregion

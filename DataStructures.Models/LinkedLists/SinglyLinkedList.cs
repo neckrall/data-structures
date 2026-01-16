@@ -2,6 +2,7 @@
 
 public sealed class SinglyLinkedList<T> : LinkedListBase<SinglyLinkedListItem<T>, T>
 {
+    #region public API methods 
     public override void Add(T value)
     {
         var item = new SinglyLinkedListItem<T>(value);
@@ -100,7 +101,9 @@ public sealed class SinglyLinkedList<T> : LinkedListBase<SinglyLinkedListItem<T>
 
         return true;
     }
+    #endregion
 
+    #region Internal methods
     private void SetFirstAndLast(SinglyLinkedListItem<T> item) 
     { 
         First = Last = item;
@@ -162,6 +165,7 @@ public sealed class SinglyLinkedList<T> : LinkedListBase<SinglyLinkedListItem<T>
 
         throw new InvalidOperationException("The specified item is not in the list.");
     }
+    #endregion
 }
 
 public sealed class SinglyLinkedListItem<T> : LinkedListItemBase<T>

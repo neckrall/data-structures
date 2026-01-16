@@ -187,4 +187,77 @@ public sealed class SinglyLinkedListTests : LinkedListsTests<SinglyLinkedListIte
         Assert.Same(list.Last, list.First!.Next);
     }
     #endregion
+
+    #region AddAfter
+    [Fact]
+    public void AddAfter_WhenTargetIsInMiddle_ShouldRelinkNextCorrectly()
+    {
+        // Arrange
+        var list = CreateList();
+        var firstValue = 1;
+        var middleValue = 2;
+        var lastValue = 3;
+        var newValue = 8;
+
+        list.Add(firstValue);
+        list.Add(middleValue);
+        list.Add(lastValue);
+
+        var target = list.Find(middleValue)!;
+        var oldNext = target.Next;
+
+        // Act
+        var insertedItem = list.AddAfter(target, newValue);
+
+        // Assert
+        Assert.Same(insertedItem, target.Next);
+        Assert.Same(oldNext, insertedItem.Next);
+    }
+
+    [Fact]
+    public void AddAfter_WhenTargetIsLast_ShouldUpdateLastAndSetNextToNull()
+    {
+        // Arrange
+        var list = CreateList();
+        var firstValue = 1;
+        var lastValue = 2;
+        var newValue = 99;
+
+        list.Add(firstValue);
+        list.Add(lastValue);
+
+        var target = list.Last!;
+
+        // Act
+        var insertedItem = list.AddAfter(target, newValue);
+
+        // Assert
+        Assert.Same(insertedItem, list.Last);
+        Assert.Null(insertedItem.Next);
+        Assert.Same(insertedItem, target.Next);
+    }
+
+    [Fact]
+    public void AddAfter_WhenListHasOneItem_ShouldKeepFirstAndUpdateLastLink()
+    {
+        // Arrange
+        var list = CreateList();
+        var value = 1;
+        var newValue = 2;
+
+        list.Add(value);
+
+        var target = list.First!;
+
+        // Act
+        var insertedItem = list.AddAfter(target, newValue);
+
+        // Assert
+        Assert.Same(target, list.First);
+        Assert.Same(insertedItem, list.Last);
+        Assert.Same(insertedItem, target.Next);
+
+        Assert.Null(insertedItem.Next);
+    }
+    #endregion
 }
