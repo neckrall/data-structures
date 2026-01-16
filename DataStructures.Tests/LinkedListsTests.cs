@@ -2,9 +2,9 @@
 
 namespace DataStructures.Tests;
 
-public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<int>
+public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<int?>
 {
-    protected abstract LinkedListBase<TItem, int> CreateList();
+    protected abstract LinkedListBase<TItem, int?> CreateList();
 
     #region Add
     [Fact]
@@ -193,16 +193,41 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
     {
         // Arrange
         var list = CreateList();
-        var value = 8;
+        var firstValue = 1;
+        var middleValue = 2;
+        var lastValue = 3;
 
-        list.Add(value);
+        list.Add(firstValue);
+        list.Add(middleValue);
+        list.Add(lastValue);
 
         // Act
-        var result = list.Find(value);
+        var firstItem = list.Find(firstValue);
+        var middleItem = list.Find(middleValue);
+        var lastItem = list.Find(lastValue);
+
+        // Assert
+        Assert.NotNull(firstItem);
+        Assert.NotNull(middleItem);
+        Assert.NotNull(lastItem);
+
+        Assert.Equal(firstValue, firstItem.Value);
+        Assert.Equal(middleValue, middleItem.Value);
+        Assert.Equal(lastValue, lastItem.Value);
+    }
+    [Fact]
+    public void Find_WhenValueIsNull_ShouldFindNullItem()
+    {
+        // Arrange
+        var list = CreateList();
+        list.Add(null);
+
+        // Act
+        var result = list.Find(null);
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(result, list.First);
+        Assert.Null(result.Value);
     }
     #endregion
 
