@@ -5,6 +5,8 @@ namespace DataStructures.Tests;
 public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<int?>
 {
     protected const int DefaultValue = 8;
+    protected const int FirstValue = 1;
+    protected const int LastValue = 2;
     protected const int ExpectedSingleItemCount = 1;
     protected const int ExpectedTwoItemsCount = 2;
 
@@ -16,15 +18,15 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
     protected LinkedListBase<TItem, int?> GetOneItemList() 
     { 
         var list = InitializeList();
-        list.Add(1);
+        list.Add(FirstValue);
         return list;
     }
 
     protected LinkedListBase<TItem, int?> GetTwoItemsList() 
     {
         var list = InitializeList();
-        list.Add(1);
-        list.Add(2);
+        list.Add(FirstValue);
+        list.Add(LastValue);
         return list;
     }
 
@@ -40,6 +42,13 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
     }
 
     protected abstract bool CheckOneItemListReferences(LinkedListBase<TItem, int?> list);
+
+    protected void AssertTwoItemsListState(LinkedListBase<TItem, int?> list, int? expectedFirstValue, int? expectedLastValue) 
+    {
+        Assert.Equal(expectedFirstValue, list.First!.Value);
+        Assert.Equal(expectedLastValue, list.Last!.Value);
+        Assert.Equal(ExpectedTwoItemsCount, list.Count);
+    }
     #endregion
 
     #region Add
@@ -57,7 +66,17 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
     }
 
     [Fact]
-    public void Add_WhenListIsNotEmpty_ShouldAppendItemToEnd() { }
+    public void Add_WhenListIsNotEmpty_ShouldAppendItemToEnd() 
+    {
+        // Arrange
+        var list = GetOneItemList();
+
+        // Act
+        list.Add(DefaultValue);
+
+        // Assert
+        AssertTwoItemsListState(list, FirstValue, DefaultValue);
+    }
     #endregion
 
     #region AddToBegin
@@ -75,7 +94,17 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
     }
 
     [Fact]
-    public void AddToBegin_WhenListIsNotEmpty_ShouldPrependItem() { }
+    public void AddToBegin_WhenListIsNotEmpty_ShouldPrependItem() 
+    {
+        // Arrange
+        var list = GetOneItemList();
+
+        // Act
+        list.AddToBegin(DefaultValue);
+
+        // Assert
+        AssertTwoItemsListState(list, DefaultValue, FirstValue);
+    }
     #endregion
 
     #region AddAfter
