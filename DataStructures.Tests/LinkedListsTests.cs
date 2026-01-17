@@ -4,7 +4,26 @@ namespace DataStructures.Tests;
 
 public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<int?>
 {
+    protected const int DefaultValue = 8;
+
     protected abstract LinkedListBase<TItem, int?> InitializeList();
+
+    protected LinkedListBase<TItem, int?> GetEmptyList() => InitializeList();
+
+    protected LinkedListBase<TItem, int?> GetOneItemList() 
+    { 
+        var list = InitializeList();
+        list.Add(1);
+        return list;
+    }
+
+    protected LinkedListBase<TItem, int?> GetTwoItemsList() 
+    {
+        var list = InitializeList();
+        list.Add(1);
+        list.Add(2);
+        return list;
+    }
 
     #region Add
     [Fact]
