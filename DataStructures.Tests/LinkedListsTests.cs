@@ -53,6 +53,16 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
         Assert.True(CheckTwoItemsListReferences(list));
     }
 
+    protected void AssertTwoItemsListState(LinkedListBase<TItem, int?> list, TItem expectedFirstItem, TItem expectedLastItem)
+    {
+        Assert.Same(expectedFirstItem, list.First);
+        Assert.Same(expectedLastItem, list.Last);
+        Assert.Equal(ExpectedTwoItemsCount, list.Count);
+
+        // Each successor implements links in nodes in its own way.
+        Assert.True(CheckTwoItemsListReferences(list));
+    }
+
     protected abstract bool CheckTwoItemsListReferences(LinkedListBase<TItem, int?> list);
     #endregion
 
@@ -115,7 +125,18 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
     #region AddAfter
     // For the purposes of this project, tests assume that a valid list item is passed as a parameter.
     [Fact]
-    public void AddAfter_WhenListHasOneItem_ShouldKeepFirstAndUpdateLast() { }
+    public void AddAfter_WhenListHasOneItem_ShouldKeepFirstAndUpdateLast() 
+    {
+        // Arrange
+        var list = GetOneItemList();
+        var target = list.First!;
+
+        // Act
+        var newItem = list.AddAfter(target, DefaultValue);
+
+        // Assert
+        AssertTwoItemsListState(list, target, newItem);
+    }
 
     [Fact]
     public void AddAfter_WhenTargetItemIsValid_ShouldIncreaseCountAndKeepBoundaries() { }
@@ -127,7 +148,18 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
     #region AddBefore
     // For the purposes of this project, tests assume that a valid list item is passed as a parameter.
     [Fact]
-    public void AddBefore_WhenListHasOneItem_ShouldUpdateFirstAndKeepLast() { }
+    public void AddBefore_WhenListHasOneItem_ShouldUpdateFirstAndKeepLast() 
+    {
+        // Arrange
+        var list = GetOneItemList();
+        var target = list.First!;
+
+        // Act
+        var newItem = list.AddBefore(target, DefaultValue);
+
+        // Assert
+        AssertTwoItemsListState(list, newItem, target);
+    }
 
     [Fact]
     public void AddBefore_WhenTargetItemIsValid_ShouldIncreaseCountAndKeepBoundaries() { }

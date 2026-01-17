@@ -168,6 +168,7 @@ public sealed class SinglyLinkedListTests : LinkedListsTests<SinglyLinkedListIte
         Assert.Same(insertedItem, target.Next);
     }
 
+    /*
     [Fact]
     public void AddAfter_WhenListHasOneItem_ShouldKeepFirstAndUpdateLastLink()
     {
@@ -190,6 +191,7 @@ public sealed class SinglyLinkedListTests : LinkedListsTests<SinglyLinkedListIte
 
         Assert.Null(insertedItem.Next);
     }
+    */
     #endregion
 
     #region AddBefore
@@ -218,6 +220,7 @@ public sealed class SinglyLinkedListTests : LinkedListsTests<SinglyLinkedListIte
         Assert.Same(target, insertedItem.Next);
     }
 
+    /*
     [Fact]
     public void AddBefore_WhenTargetIsFirst_ShouldUpdateFirstAndLinkCorrectly()
     {
@@ -237,6 +240,7 @@ public sealed class SinglyLinkedListTests : LinkedListsTests<SinglyLinkedListIte
         Assert.Same(insertedItem, list.First);
         Assert.Same(target, insertedItem.Next);
     }
+    */
 
     [Fact]
     public void AddBefore_WhenTargetIsLast_ShouldLinkPreviousToNewItem()
