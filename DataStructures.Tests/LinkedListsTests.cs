@@ -5,7 +5,9 @@ namespace DataStructures.Tests;
 public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<int?>
 {
     protected const int DefaultValue = 8;
+    protected const int ExpectedSingleItemCount = 1;
 
+    #region Helpers
     protected abstract LinkedListBase<TItem, int?> InitializeList();
 
     protected LinkedListBase<TItem, int?> GetEmptyList() => InitializeList();
@@ -25,9 +27,28 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
         return list;
     }
 
+    protected void CheckAddItemToEmptyList(LinkedListBase<TItem, int?> list) 
+    {
+        Assert.NotNull(list.First);
+        Assert.NotNull(list.Last);
+        Assert.Same(list.First, list.Last);
+        Assert.Equal(ExpectedSingleItemCount, list.Count);
+    }
+    #endregion
+
     #region Add
     [Fact]
-    public void Add_WhenListIsEmpty_ShouldSetFirstAndLastToSameItem() { }
+    public void Add_WhenListIsEmpty_ShouldSetFirstAndLastToSameItem() 
+    {
+        // Arrange
+        var list = GetEmptyList();
+
+        // Act
+        list.Add(DefaultValue);
+
+        // Assert
+        CheckAddItemToEmptyList(list);
+    }
 
     [Fact]
     public void Add_WhenListIsNotEmpty_ShouldAppendItemToEnd() { }
@@ -35,7 +56,17 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
 
     #region AddToBegin
     [Fact]
-    public void AddToBegin_WhenListIsEmpty_ShouldSetFirstAndLastToSameItem() { }
+    public void AddToBegin_WhenListIsEmpty_ShouldSetFirstAndLastToSameItem() 
+    {
+        // Arrange
+        var list = GetEmptyList();
+
+        // Act
+        list.AddToBegin(DefaultValue);
+
+        // Assert
+        CheckAddItemToEmptyList(list);
+    }
 
     [Fact]
     public void AddToBegin_WhenListIsNotEmpty_ShouldPrependItem() { }
