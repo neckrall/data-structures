@@ -6,7 +6,10 @@ public sealed class SinglyLinkedListTests : LinkedListsTests<SinglyLinkedListIte
 {
     protected override LinkedListBase<SinglyLinkedListItem<int?>, int?> InitializeList() => new SinglyLinkedList<int?>();
 
+    protected override bool CheckOneItemListReferences(LinkedListBase<SinglyLinkedListItem<int?>, int?> list) => list.First?.Next is null && list.Last?.Next is null;
+
     #region Add
+    /*
     [Fact]
     public void Add_WhenListIsEmpty_ShouldSetNextToNull() 
     {
@@ -21,6 +24,7 @@ public sealed class SinglyLinkedListTests : LinkedListsTests<SinglyLinkedListIte
         Assert.Null(list.First!.Next);
         Assert.Null(list.Last!.Next);
     }
+    */
 
     [Fact]
     public void Add_WhenListIsNotEmpty_LastNextShouldBeNullAndPreviousShouldPointToIt() 
@@ -42,6 +46,7 @@ public sealed class SinglyLinkedListTests : LinkedListsTests<SinglyLinkedListIte
     #endregion
 
     #region AddToBegin
+    /*
     [Fact]
     public void AddToBegin_WhenListIsEmpty_ShouldSetNextToNull()
     {
@@ -56,6 +61,7 @@ public sealed class SinglyLinkedListTests : LinkedListsTests<SinglyLinkedListIte
         Assert.Null(list.First!.Next);
         Assert.Null(list.Last!.Next);
     }
+    */
 
     [Fact]
     public void AddToBegin_WhenListIsNotEmpty_ShouldPrependItemAndLinkNodesCorrectly()

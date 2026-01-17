@@ -6,6 +6,7 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
 {
     protected const int DefaultValue = 8;
     protected const int ExpectedSingleItemCount = 1;
+    protected const int ExpectedTwoItemsCount = 2;
 
     #region Helpers
     protected abstract LinkedListBase<TItem, int?> InitializeList();
@@ -27,13 +28,18 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
         return list;
     }
 
-    protected void CheckAddItemToEmptyList(LinkedListBase<TItem, int?> list) 
+    protected void AssertSingleItemListState(LinkedListBase<TItem, int?> list) 
     {
         Assert.NotNull(list.First);
         Assert.NotNull(list.Last);
         Assert.Same(list.First, list.Last);
         Assert.Equal(ExpectedSingleItemCount, list.Count);
+
+        // Each successor implements links in nodes in its own way.
+        Assert.True(CheckOneItemListReferences(list));
     }
+
+    protected abstract bool CheckOneItemListReferences(LinkedListBase<TItem, int?> list);
     #endregion
 
     #region Add
@@ -47,7 +53,7 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
         list.Add(DefaultValue);
 
         // Assert
-        CheckAddItemToEmptyList(list);
+        AssertSingleItemListState(list);
     }
 
     [Fact]
@@ -65,7 +71,7 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
         list.AddToBegin(DefaultValue);
 
         // Assert
-        CheckAddItemToEmptyList(list);
+        AssertSingleItemListState(list);
     }
 
     [Fact]
