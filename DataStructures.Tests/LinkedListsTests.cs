@@ -48,7 +48,12 @@ public abstract class LinkedListsTests<TItem> where TItem : LinkedListItemBase<i
         Assert.Equal(expectedFirstValue, list.First!.Value);
         Assert.Equal(expectedLastValue, list.Last!.Value);
         Assert.Equal(ExpectedTwoItemsCount, list.Count);
+
+        // Each successor implements links in nodes in its own way.
+        Assert.True(CheckTwoItemsListReferences(list));
     }
+
+    protected abstract bool CheckTwoItemsListReferences(LinkedListBase<TItem, int?> list);
     #endregion
 
     #region Add
