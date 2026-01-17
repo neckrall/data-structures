@@ -4,14 +4,14 @@ namespace DataStructures.Tests;
 
 public sealed class SinglyLinkedListTests : LinkedListsTests<SinglyLinkedListItem<int?>>
 {
-    protected override LinkedListBase<SinglyLinkedListItem<int?>, int?> CreateList() => new SinglyLinkedList<int?>();
+    protected override LinkedListBase<SinglyLinkedListItem<int?>, int?> InitializeList() => new SinglyLinkedList<int?>();
 
     #region Add
     [Fact]
     public void Add_WhenListIsEmpty_ShouldSetNextToNull() 
     {
         // Arrange
-        var list = CreateList();
+        var list = InitializeList();
         var value = 8;
 
         // Act
@@ -26,7 +26,7 @@ public sealed class SinglyLinkedListTests : LinkedListsTests<SinglyLinkedListIte
     public void Add_WhenListIsNotEmpty_LastNextShouldBeNullAndPreviousShouldPointToIt() 
     {
         // Arrange
-        var list = CreateList();
+        var list = InitializeList();
         var firstValue = 1;
         var lastValue = 2;
 
@@ -46,7 +46,7 @@ public sealed class SinglyLinkedListTests : LinkedListsTests<SinglyLinkedListIte
     public void AddToBegin_WhenListIsEmpty_ShouldSetNextToNull()
     {
         // Arrange
-        var list = CreateList();
+        var list = InitializeList();
         var value = 8;
 
         // Act
@@ -61,7 +61,7 @@ public sealed class SinglyLinkedListTests : LinkedListsTests<SinglyLinkedListIte
     public void AddToBegin_WhenListIsNotEmpty_ShouldPrependItemAndLinkNodesCorrectly()
     {
         // Arrange
-        var list = CreateList();
+        var list = InitializeList();
         var oldFirstValue = 1;
         var newFirstValue = 2;
 
@@ -83,7 +83,7 @@ public sealed class SinglyLinkedListTests : LinkedListsTests<SinglyLinkedListIte
     public void RemoveLast_WhenListHasTwoItems_ShouldSetLastNextToNull() 
     {
         // Arrange
-        var list = CreateList();
+        var list = InitializeList();
         var firstValue = 1;
         var lastValue = 2;
 
@@ -101,7 +101,7 @@ public sealed class SinglyLinkedListTests : LinkedListsTests<SinglyLinkedListIte
     public void RemoveLast_WhenListHasMultipleItems_ShouldRelinkLastCorrectly() 
     {
         // Arrange
-        var list = CreateList();
+        var list = InitializeList();
         var firstValue = 1;
         var middleValue = 2;
         var lastValue = 3;
@@ -126,7 +126,7 @@ public sealed class SinglyLinkedListTests : LinkedListsTests<SinglyLinkedListIte
     public void Remove_WhenRemovingFirst_ShouldRelinkFirstCorrectly() 
     {
         // Arrange
-        var list = CreateList();
+        var list = InitializeList();
         var firstValue = 1;
         var middleValue = 2;
         var lastValue = 3;
@@ -149,7 +149,7 @@ public sealed class SinglyLinkedListTests : LinkedListsTests<SinglyLinkedListIte
     public void Remove_WhenRemovingLast_ShouldSetLastNextToNull() 
     {
         // Arrange
-        var list = CreateList();
+        var list = InitializeList();
         var firstValue = 1;
         var middleValue = 2;
         var lastValue = 3;
@@ -169,7 +169,7 @@ public sealed class SinglyLinkedListTests : LinkedListsTests<SinglyLinkedListIte
     public void Remove_WhenRemovingMiddle_ShouldRelinkNeighbors() 
     {
         // Arrange
-        var list = CreateList();
+        var list = InitializeList();
         var firstValue = 1;
         var middleValue = 2;
         var lastValue = 3;
@@ -193,7 +193,7 @@ public sealed class SinglyLinkedListTests : LinkedListsTests<SinglyLinkedListIte
     public void AddAfter_WhenTargetIsInMiddle_ShouldRelinkNextCorrectly()
     {
         // Arrange
-        var list = CreateList();
+        var list = InitializeList();
         var firstValue = 1;
         var middleValue = 2;
         var lastValue = 3;
@@ -218,7 +218,7 @@ public sealed class SinglyLinkedListTests : LinkedListsTests<SinglyLinkedListIte
     public void AddAfter_WhenTargetIsLast_ShouldUpdateLastAndSetNextToNull()
     {
         // Arrange
-        var list = CreateList();
+        var list = InitializeList();
         var firstValue = 1;
         var lastValue = 2;
         var newValue = 99;
@@ -241,7 +241,7 @@ public sealed class SinglyLinkedListTests : LinkedListsTests<SinglyLinkedListIte
     public void AddAfter_WhenListHasOneItem_ShouldKeepFirstAndUpdateLastLink()
     {
         // Arrange
-        var list = CreateList();
+        var list = InitializeList();
         var value = 1;
         var newValue = 2;
 
@@ -266,7 +266,7 @@ public sealed class SinglyLinkedListTests : LinkedListsTests<SinglyLinkedListIte
     public void AddBefore_WhenTargetIsInMiddle_ShouldRelinkNextCorrectly()
     {
         // Arrange
-        var list = CreateList();
+        var list = InitializeList();
         var firstValue = 1;
         var middleValue = 2;
         var lastValue = 3;
@@ -291,7 +291,7 @@ public sealed class SinglyLinkedListTests : LinkedListsTests<SinglyLinkedListIte
     public void AddBefore_WhenTargetIsFirst_ShouldUpdateFirstAndLinkCorrectly()
     {
         // Arrange
-        var list = CreateList();
+        var list = InitializeList();
         var firstValue = 1;
         var newValue = 2;
 
@@ -311,7 +311,7 @@ public sealed class SinglyLinkedListTests : LinkedListsTests<SinglyLinkedListIte
     public void AddBefore_WhenTargetIsLast_ShouldLinkPreviousToNewItem()
     {
         // Arrange
-        var list = CreateList();
+        var list = InitializeList();
         var firstValue = 1;
         var lastValue = 2;
         var newValue = 3;
